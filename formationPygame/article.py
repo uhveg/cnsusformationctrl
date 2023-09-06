@@ -10,8 +10,8 @@ class Robot:
         self.scale_meter2px = scale_meter2px
         rz_px = rz*scale_meter2px
         self.pyrect = pygame.Rect(0, 0, rz_px, rz_px)
-        self.pyrect.x = pos[0]*scale_meter2px
-        self.pyrect.y = pos[1]*scale_meter2px
+        self.pyrect.centerx = pos[0]*scale_meter2px
+        self.pyrect.centery = pos[1]*scale_meter2px
         self.Neighbors:List[Tuple[Robot, float]] = []
         self.ctrlType = ctr
         self.v = 0
@@ -24,15 +24,15 @@ class Robot:
             if self.ctrlType == "csch":
                 ddx, ddy = self.consensus_csch(neigh)
             elif self.ctrlType == "exp":
-                ddx, ddy = self.consensus_gdesc(neigh)
+                ddx, ddy = self.consensus_exp(neigh)
             dx -= ddx
             dy -= ddy
 
         self.velocity = [dx, dy]
         self.position[0] += self.velocity[0] * (ts / 1000.0)
         self.position[1] += self.velocity[1] * (ts / 1000.0)
-        self.pyrect.x = self.position[0] * self.scale_meter2px
-        self.pyrect.y = self.position[1] * self.scale_meter2px
+        self.pyrect.centerx = self.position[0] * self.scale_meter2px
+        self.pyrect.centery = self.position[1] * self.scale_meter2px
 
     def add_links(self, links) -> None:
         self.Neighbors = links
